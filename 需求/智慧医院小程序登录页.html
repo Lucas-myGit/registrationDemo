@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>智慧医院小程序登录页</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<style>
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 flex justify-center items-center min-h-screen p-4">
+<!-- APP Container -->
+<div class="w-[375px] h-[812px] bg-white border border-gray-200 rounded-[40px] shadow-2xl overflow-hidden relative flex flex-col">
+<!-- Status Bar Placeholder -->
+<div class="h-11 w-full flex justify-between items-center px-8 flex-shrink-0">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex space-x-1.5">
+<span class="iconify text-lg" data-icon="fluent:cellular-data-24-filled"></span>
+<span class="iconify text-lg" data-icon="fluent:wifi-1-24-filled"></span>
+<span class="iconify text-lg" data-icon="fluent:battery-1-24-filled"></span>
+</div>
+</div>
+<!-- Header / Branding -->
+<div class="px-8 pt-12 pb-8 flex-shrink-0">
+<div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 mb-6">
+<span class="iconify text-white text-4xl" data-icon="solar:health-bold"></span>
+</div>
+<h1 class="text-2xl font-bold text-slate-800">欢迎来到智慧医院</h1>
+<p class="text-slate-400 mt-2 text-sm">提供专业、便捷、高效的医疗健康服务</p>
+</div>
+<!-- Content Area -->
+<div class="flex-grow px-8 animate-slide-up">
+<!-- Tab Switch -->
+<div class="flex border-b border-gray-100 mb-8">
+<button class="pb-3 text-sm font-medium border-b-2 border-blue-600 text-blue-600 transition-all mr-6" id="tab-pass" onclick="switchTab('pass')">账号登录</button>
+<button class="pb-3 text-sm font-medium border-b-2 border-transparent text-slate-400 transition-all" id="tab-code" onclick="switchTab('code')">验证码登录</button>
+</div>
+<!-- Login Forms -->
+<div class="space-y-5" id="form-content">
+<!-- Input Row 1 -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="iconify text-slate-400 group-focus-within:text-blue-500" data-icon="solar:phone-bold"></span>
+</div>
+<input class="w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 pr-4 text-sm focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="请输入手机号" type="text"/>
+</div>
+<!-- Password Form -->
+<div class="space-y-5 block" id="pass-inputs">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="iconify text-slate-400 group-focus-within:text-blue-500" data-icon="solar:lock-password-bold"></span>
+</div>
+<input class="w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 pr-12 text-sm focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="请输入密码" type="password"/>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer">
+<span class="iconify text-slate-400" data-icon="solar:eye-bold"></span>
+</div>
+</div>
+<div class="flex justify-end">
+<a class="text-xs text-blue-600 hover:text-blue-700" href="#">忘记密码？</a>
+</div>
+</div>
+<!-- Code Form (Hidden by default) -->
+<div class="space-y-5 hidden" id="code-inputs">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="iconify text-slate-400 group-focus-within:text-blue-500" data-icon="solar:shield-check-bold"></span>
+</div>
+<input class="w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 pr-32 text-sm focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="请输入验证码" type="text"/>
+<div class="absolute inset-y-0 right-3 flex items-center">
+<button class="bg-white border border-blue-100 text-blue-600 text-xs px-3 py-2 rounded-xl hover:bg-blue-50 transition-colors">获取验证码</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-blue-600 text-white rounded-2xl py-4 font-semibold shadow-xl shadow-blue-100 mt-8 active:scale-95 transition-transform">
+        立即登录
+      </button>
+<!-- Protocol -->
+<div class="mt-6 flex items-start space-x-2">
+<input class="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" type="checkbox"/>
+<p class="text-[11px] leading-relaxed text-slate-400">
+          我已阅读并同意<span class="text-blue-600">《智慧医院用户服务协议》</span>、<span class="text-blue-600">《隐私权政策》</span>以及<span class="text-blue-600">《健康档案授权协议》</span>
+</p>
+</div>
+<!-- Other Way -->
+<div class="mt-12">
+<div class="flex items-center space-x-4 mb-6">
+<div class="flex-grow h-[1px] bg-slate-100"></div>
+<span class="text-xs text-slate-300">更多登录方式</span>
+<div class="flex-grow h-[1px] bg-slate-100"></div>
+</div>
+<div class="flex justify-center space-x-8">
+<div class="flex flex-col items-center space-y-2 cursor-pointer">
+<div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center">
+<span class="iconify text-2xl" data-icon="ri:wechat-fill"></span>
+</div>
+<span class="text-[10px] text-slate-400">微信登录</span>
+</div>
+<div class="flex flex-col items-center space-y-2 cursor-pointer">
+<div class="w-12 h-12 bg-sky-50 text-sky-500 rounded-full flex items-center justify-center">
+<span class="iconify text-2xl" data-icon="ri:alipay-fill"></span>
+</div>
+<span class="text-[10px] text-slate-400">支付宝登录</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Ornament -->
+<div class="pb-12 text-center">
+<span class="text-xs text-slate-300">当前版本 v2.4.0 (2026.01.29)</span>
+</div>
+<!-- Custom Shape Decor -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-blue-50 rounded-full -z-10 opacity-50"></div>
+<div class="absolute top-40 -left-10 w-20 h-20 bg-blue-100 rounded-full -z-10 opacity-30"></div>
+</div>
+<script>
+    function switchTab(type) {
+      const passTab = document.getElementById('tab-pass');
+      const codeTab = document.getElementById('tab-code');
+      const passInputs = document.getElementById('pass-inputs');
+      const codeInputs = document.getElementById('code-inputs');
+
+      if (type === 'pass') {
+        passTab.classList.add('border-blue-600', 'text-blue-600');
+        passTab.classList.remove('border-transparent', 'text-slate-400');
+        codeTab.classList.add('border-transparent', 'text-slate-400');
+        codeTab.classList.remove('border-blue-600', 'text-blue-600');
+        passInputs.classList.remove('hidden');
+        codeInputs.classList.add('hidden');
+      } else {
+        codeTab.classList.add('border-blue-600', 'text-blue-600');
+        codeTab.classList.remove('border-transparent', 'text-slate-400');
+        passTab.classList.add('border-transparent', 'text-slate-400');
+        passTab.classList.remove('border-blue-600', 'text-blue-600');
+        codeInputs.classList.remove('hidden');
+        passInputs.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

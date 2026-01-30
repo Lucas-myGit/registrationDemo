@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.header {
+  height: 56px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1px solid #eee;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.header-back {
+  position: absolute;
+  left: 16px;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+.content {
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.btn-primary {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:active {
+  opacity: 0.9;
+}
+
+/* Tab Bar */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid #eee;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #999;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.tab-item.active {
+  color: #3b82f6;
+}
+
+.tab-item .icon {
+  font-size: 24px;
+}
+
+/* 状态标签 */
+.status-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-tag.waiting {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-tag.in-progress {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.status-tag.completed {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.status-tag.cancelled {
+  background: #f3f4f6;
+  color: #6b7280;
+}
