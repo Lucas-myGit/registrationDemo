@@ -164,9 +164,6 @@
           </div>
           <div class="footer-right">
             <el-button size="large">暂存病历</el-button>
-            <el-button type="primary" size="large" :loading="submitting" @click="handleSubmit">
-              确认诊断
-            </el-button>
           </div>
         </div>
       </section>
@@ -199,11 +196,18 @@
           <div class="order-footer">
             <div class="order-total">
               <span>预估费用合计</span>
-              <span class="price">¥ 0.00</span>
+              <el-input-number
+                v-model="diagnosisForm.fee"
+                :min="0"
+                :precision="2"
+                :step="10"
+                size="small"
+                controls-position="right"
+              />
             </div>
-            <el-button type="success" class="order-btn">
+            <el-button type="success" class="order-btn" :loading="submitting" :disabled="!currentPatient" @click="handleSubmit">
               <el-icon><Check /></el-icon>
-              开立处方
+              开立处方并下发诊断
             </el-button>
           </div>
         </div>
@@ -217,7 +221,7 @@
               <p class="tool-desc">下周门诊已排</p>
             </div>
             <div class="tool-item">
-              <el-icon :size="24" color="#ec4899"><Heart /></el-icon>
+              <el-icon :size="24" color="#ec4899"><Bell /></el-icon>
               <p class="tool-name">随访提醒</p>
               <p class="tool-desc">3名患者待跟踪</p>
             </div>
@@ -233,7 +237,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  FirstAidKit, Bell, User, Document, Check, Calendar, Heart
+  FirstAidKit, Bell, User, Document, Check, Calendar
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { getRegistrations, getStats, submitDiagnosis, getRegistrationDetail } from '@/api'
@@ -259,7 +263,8 @@ const diagnosisForm = ref({
   pastHistory: '',
   diagnosis: '',
   treatment: '',
-  prescription: ''
+  prescription: '',
+  fee: 0
 })
 
 const filteredRegistrations = computed(() => {
@@ -327,7 +332,8 @@ const selectPatient = async (patient) => {
         pastHistory: data.past_history || '',
         diagnosis: data.diagnosis || '',
         treatment: data.treatment || '',
-        prescription: data.prescription || ''
+        prescription: data.prescription || '',
+        fee: data.fee || 0
       }
     }
   } catch (error) {
@@ -338,6 +344,10 @@ const selectPatient = async (patient) => {
 const handleSubmit = async () => {
   if (!diagnosisForm.value.diagnosis) {
     ElMessage.warning('请填写诊断结果')
+    return
+  }
+  if (!diagnosisForm.value.prescription) {
+    ElMessage.warning('请填写处方内容')
     return
   }
 

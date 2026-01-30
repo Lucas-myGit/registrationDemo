@@ -63,6 +63,11 @@
           <p class="section-label">处方</p>
           <p class="section-content">{{ record.prescription }}</p>
         </div>
+
+        <div class="fee-section" v-if="record.fee">
+          <div class="fee-label">费用合计</div>
+          <div class="fee-amount">¥ {{ Number(record.fee).toFixed(2) }}</div>
+        </div>
       </div>
 
       <!-- 等待诊断提示 -->
@@ -294,5 +299,25 @@ onMounted(() => {
 .waiting-desc {
   font-size: 14px;
   color: #999;
+}
+
+.fee-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fee-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.fee-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ef4444;
 }
 </style>

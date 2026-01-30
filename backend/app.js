@@ -159,7 +159,7 @@ app.get('/api/patient/registrations', authenticateToken, async (req, res) => {
 
     const [rows] = await pool.execute(`
       SELECT r.*, d.name as doctor_name, d.title as doctor_title, d.department,
-             diag.diagnosis, diag.treatment, diag.chief_complaint, diag.prescription
+             diag.diagnosis, diag.treatment, diag.chief_complaint, diag.prescription, diag.fee
       FROM registrations r
       LEFT JOIN doctors d ON r.doctor_id = d.id
       LEFT JOIN diagnoses diag ON r.id = diag.registration_id
@@ -275,7 +275,7 @@ app.get('/api/registration/:id', authenticateToken, async (req, res) => {
              p.gender as patient_gender, p.age as patient_age, p.id_card as patient_id_card,
              d.name as doctor_name, d.title as doctor_title, d.department,
              diag.id as diagnosis_id, diag.chief_complaint, diag.present_illness,
-             diag.past_history, diag.diagnosis, diag.treatment, diag.prescription
+             diag.past_history, diag.diagnosis, diag.treatment, diag.prescription, diag.fee
       FROM registrations r
       LEFT JOIN patients p ON r.patient_id = p.id
       LEFT JOIN doctors d ON r.doctor_id = d.id
@@ -321,7 +321,7 @@ app.put('/api/registration/:id/status', authenticateToken, async (req, res) => {
 // 提交诊断
 app.post('/api/diagnosis', authenticateToken, async (req, res) => {
   try {
-    const { registrationId, chiefComplaint, presentIllness, pastHistory, diagnosis, treatment, prescription } = req.body;
+    const { registrationId, chiefComplaint, presentIllness, pastHistory, diagnosis, treatment, prescription, fee } = req.body;
 
     if (!registrationId || !diagnosis) {
       return res.json({ code: 400, message: '参数不完整' });
@@ -338,15 +338,15 @@ app.post('/api/diagnosis', authenticateToken, async (req, res) => {
       await pool.execute(`
         UPDATE diagnoses SET
           chief_complaint = ?, present_illness = ?, past_history = ?,
-          diagnosis = ?, treatment = ?, prescription = ?
+          diagnosis = ?, treatment = ?, prescription = ?, fee = ?
         WHERE registration_id = ?
-      `, [chiefComplaint || '', presentIllness || '', pastHistory || '', diagnosis, treatment || '', prescription || '', registrationId]);
+      `, [chiefComplaint || '', presentIllness || '', pastHistory || '', diagnosis, treatment || '', prescription || '', fee || 0, registrationId]);
     } else {
       // 新建诊断
       await pool.execute(`
-        INSERT INTO diagnoses (registration_id, chief_complaint, present_illness, past_history, diagnosis, treatment, prescription)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `, [registrationId, chiefComplaint || '', presentIllness || '', pastHistory || '', diagnosis, treatment || '', prescription || '']);
+        INSERT INTO diagnoses (registration_id, chief_complaint, present_illness, past_history, diagnosis, treatment, prescription, fee)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `, [registrationId, chiefComplaint || '', presentIllness || '', pastHistory || '', diagnosis, treatment || '', prescription || '', fee || 0]);
     }
 
     // 更新挂号状态为已诊
